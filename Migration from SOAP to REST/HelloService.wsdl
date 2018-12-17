@@ -70,6 +70,19 @@
                use="encoded"/>
          </output>
       </operation>
+      <operation name="getMessage">
+         <soap:operation soapAction="getMessage"/>
+         <input>
+            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </input>    
+         <output>
+            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </output>
+      </operation>
    </binding>
    <service name="Hello_Service">
       <documentation>WSDL File for HelloService</documentation>
