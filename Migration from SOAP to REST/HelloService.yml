@@ -1,0 +1,122 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: HelloService
+  description: WSDL File for HelloService
+host: www.examples.com
+basePath: /SayHello/
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /sendMessage:
+    post:
+      summary: sendMessage
+      tags:
+      - Hello_Binding
+      operationId: SendMessagePost
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SendMessageRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/SendMessageResponse'
+  /getMessage:
+    post:
+      summary: getMessage
+      tags:
+      - Hello_Binding
+      operationId: GetMessagePost
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/GetMessageRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/GetMessageResponse'
+definitions:
+  SendMessageRequest:
+    title: SendMessageRequest
+    type: object
+    properties:
+      message:
+        $ref: '#/definitions/s1_GreetingMessage'
+    required:
+    - message
+  SendMessageResponse:
+    title: SendMessageResponse
+    type: object
+    properties:
+      message:
+        $ref: '#/definitions/s1_GreetingMessage'
+    required:
+    - message    
+  GetMessageRequest:
+    title: GetMessageRequest
+    type: object
+    properties:
+      messageId:
+        type: string
+    required:
+    - messageId  
+  GetMessageResponse:
+    title: GetMessageResponse
+    type: object
+    properties:
+      message:
+        $ref: '#/definitions/s2_Message'
+    required:
+    - message      
+  s1_GreetingMessage:
+    title: s1_GreetingMessage
+    type: object
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      greeting:
+        type: string
+    required:
+    - id
+    - firstName
+    - lastName
+    - greeting
+  s2_Message:
+    title: s2_Message
+    type: object
+    properties:
+      from:
+        type: string
+      to:
+        type: string
+      text:
+        type: string
+      date:
+        type: string
+        format: date-time
+    required:
+    - from
+    - to
+    - text
+    - date
+tags:
+- name: Hello_Binding

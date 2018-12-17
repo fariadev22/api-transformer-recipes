@@ -1,0 +1,80 @@
+<definitions name="HelloService"
+   targetNamespace="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://www.examples.com/wsdl/HelloService.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:s1="http://www.examples.com/schema1"
+   xmlns:s2="http://www.examples.com/schema2"> 
+  <types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.examples.com/schema1" elementFormDefault="qualified">
+        <element name="GreetingMessage">
+            <complexType>
+                <sequence>
+                    <element name="firstName" type="xsd:string"/>
+                    <element name="lastName" type="xsd:string"/>                               
+                    <element name="greeting" type="xsd:string"/>
+                </sequence>                
+                <attribute name="id" type="xsd:string" use="required"/>
+            </complexType>
+        </element>
+      </schema>      
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.examples.com/schema2" elementFormDefault="qualified">
+        <element name="Message">
+            <complexType>
+                <sequence>
+                    <element name="from" type="xsd:string"/>
+                    <element name="to" type="xsd:string"/>
+                    <element name="text" type="xsd:string"/>
+                    <element name="date" type="xsd:datetime"/>
+                </sequence>
+            </complexType>
+        </element>
+      </schema>
+  </types>
+  <message name="SendMessageRequest">
+      <part name="message" type="s1:GreetingMessage"/>
+  </message>
+  <message name="SendMessageResponse">
+      <part name="message" type="s1:GreetingMessage"/>
+  </message>
+  <message name="GetMessageRequest">
+      <part name="messageId" type="xsd:string"/>
+  </message>
+  <message name="GetMessageResponse">
+      <part name="message" type="s2:Message"/>
+  </message>
+  <portType name="Hello_PortType">
+      <operation name="sendMessage">
+         <input message="tns:SendMessageRequest"/>
+         <output message="tns:SendMessageResponse"/>
+      </operation>
+      <operation name="getMessage">
+         <input message="tns:GetMessageRequest"/>
+         <output message="tns:GetMessageResponse"/>
+      </operation>
+  </portType>
+  <binding name="Hello_Binding" type="tns:Hello_PortType">
+      <soap:binding style="rpc"
+         transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="sendMessage">
+         <soap:operation soapAction="sendMessage"/>
+         <input>
+            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </input>    
+         <output>
+            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:examples:helloservice"
+               use="encoded"/>
+         </output>
+      </operation>
+   </binding>
+   <service name="Hello_Service">
+      <documentation>WSDL File for HelloService</documentation>
+      <port binding="tns:Hello_Binding" name="Hello_Port">
+         <soap:address location="http://www.examples.com/SayHello/" />
+      </port>
+   </service>   
+</definitions>
