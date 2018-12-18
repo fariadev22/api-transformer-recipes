@@ -8,14 +8,13 @@
    xmlns:s2="http://www.examples.com/schema2"> 
   <types>
       <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.examples.com/schema1" elementFormDefault="qualified">
-        <element name="GreetingMessage">
+        <element name="MessageIdentificationInfo">
             <complexType>
                 <sequence>
-                    <element name="firstName" type="xsd:string"/>
-                    <element name="lastName" type="xsd:string"/>                               
-                    <element name="greeting" type="xsd:string"/>
+                    <element name="senderName" type="xsd:string"/>
+                    <element name="recipientName" type="xsd:string"/>
                 </sequence>                
-                <attribute name="id" type="xsd:string" use="required"/>
+                <attribute name="messageId" type="xsd:string" use="required"/>
             </complexType>
         </element>
       </schema>      
@@ -32,62 +31,35 @@
         </element>
       </schema>
   </types>
-  <message name="SendMessageRequest">
-      <part name="message" type="s1:GreetingMessage"/>
-  </message>
-  <message name="SendMessageResponse">
-      <part name="message" type="s1:GreetingMessage"/>
-  </message>
   <message name="GetMessageRequest">
-      <part name="messageId" type="xsd:string"/>
+      <part name="messageId" type="s1:MessageIdentificationInfo"/>
   </message>
   <message name="GetMessageResponse">
       <part name="message" type="s2:Message"/>
   </message>
   <portType name="Hello_PortType">
-      <operation name="sendMessage">
-         <input message="tns:SendMessageRequest"/>
-         <output message="tns:SendMessageResponse"/>
-      </operation>
       <operation name="getMessage">
          <input message="tns:GetMessageRequest"/>
          <output message="tns:GetMessageResponse"/>
       </operation>
   </portType>
   <binding name="Hello_Binding" type="tns:Hello_PortType">
-      <soap:binding style="rpc"
+      <soap:binding style="document"
          transport="http://schemas.xmlsoap.org/soap/http"/>
-      <operation name="sendMessage">
-         <soap:operation soapAction="sendMessage"/>
-         <input>
-            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:examples:helloservice"
-               use="encoded"/>
-         </input>    
-         <output>
-            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:examples:helloservice"
-               use="encoded"/>
-         </output>
-      </operation>
       <operation name="getMessage">
          <soap:operation soapAction="getMessage"/>
          <input>
-            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:examples:helloservice"
-               use="encoded"/>
+            <soap:body use="literal"/>
          </input>    
          <output>
-            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:examples:helloservice"
-               use="encoded"/>
+            <soap:body use="literal"/>
          </output>
       </operation>
    </binding>
    <service name="Hello_Service">
       <documentation>WSDL File for HelloService</documentation>
       <port binding="tns:Hello_Binding" name="Hello_Port">
-         <soap:address location="http://www.examples.com/SayHello/" />
+         <soap:address location="http://www.examples.com/MessagingService/" />
       </port>
    </service>   
 </definitions>

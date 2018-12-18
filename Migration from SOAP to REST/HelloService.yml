@@ -4,7 +4,7 @@ info:
   title: HelloService
   description: WSDL File for HelloService
 host: www.examples.com
-basePath: /SayHello/
+basePath: /MessagingService/
 schemes:
 - http
 consumes:
@@ -12,25 +12,6 @@ consumes:
 produces:
 - application/json
 paths:
-  /sendMessage:
-    post:
-      summary: sendMessage
-      tags:
-      - Hello_Binding
-      operationId: SendMessagePost
-      produces:
-      - application/json
-      parameters:
-      - name: Body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/SendMessageRequest'
-      responses:
-        200:
-          description: ''
-          schema:
-            $ref: '#/definitions/SendMessageResponse'
   /getMessage:
     post:
       summary: getMessage
@@ -51,28 +32,12 @@ paths:
           schema:
             $ref: '#/definitions/GetMessageResponse'
 definitions:
-  SendMessageRequest:
-    title: SendMessageRequest
-    type: object
-    properties:
-      message:
-        $ref: '#/definitions/s1_GreetingMessage'
-    required:
-    - message
-  SendMessageResponse:
-    title: SendMessageResponse
-    type: object
-    properties:
-      message:
-        $ref: '#/definitions/s1_GreetingMessage'
-    required:
-    - message    
   GetMessageRequest:
     title: GetMessageRequest
     type: object
     properties:
       messageId:
-        type: string
+        $ref: '#/definitions/s1_MessageIdentificationInfo'
     required:
     - messageId  
   GetMessageResponse:
@@ -82,24 +47,21 @@ definitions:
       message:
         $ref: '#/definitions/s2_Message'
     required:
-    - message      
-  s1_GreetingMessage:
-    title: s1_GreetingMessage
+    - message    
+  s1_MessageIdentificationInfo:
+    title: s1_MessageIdentificationInfo
     type: object
     properties:
-      id:
+      messageId:
         type: string
-      firstName:
+      senderName:
         type: string
-      lastName:
-        type: string
-      greeting:
+      recipientName:
         type: string
     required:
-    - id
-    - firstName
-    - lastName
-    - greeting
+    - messageId
+    - senderName
+    - recipientName
   s2_Message:
     title: s2_Message
     type: object
