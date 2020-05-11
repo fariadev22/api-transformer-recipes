@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: HelloService
+  description: Swagger file for generating WSDL
+  version: '1.0'
+servers:
+- url: https://www.example.com/SayHello/
+paths:
+  /messages:
+    get:
+      tags:
+      - Messages
+      description: Get all message entries
+      operationId: GetMessages
+      parameters: []
+      responses:
+        200:
+          description: List of all message objects
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+                description: List of all message objects
+                xml:
+                  name: Messages
+                  attribute: false
+                  wrapped: true
+        404:
+          description: No messages found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+  /message:
+    post:
+      tags:
+      - Messages
+      description: Send a message
+      operationId: SendMessage
+      parameters: []
+      requestBody:
+        description: 'Message object'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      responses:
+        200:
+          description: Message id will be received if message is successfully stored.
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: No messages found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+    get:
+      tags:
+      - Messages
+      description: View message entry
+      operationId: GetMessage
+      parameters:
+      - name: messageId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Message object against the id, if found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        404:
+          description: No messages found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+components:
+  schemas:
+    Message:
+      title: Message
+      required:
+      - from
+      - to
+      - text
+      - date
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        text:
+          type: string
+        date:
+          type: string
+          format: date-time
+        id:
+          type: string
+          xml:
+            name: id
+            attribute: true
+      xml:
+        name: MessageEntry
+        namespace: https://www.example.com/message
+        prefix: m
+        attribute: false
+        wrapped: false
+    Error:
+      title: Error
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+      xml:
+        name: Error
+        namespace: https://www.example.com/error
+        prefix: e
+        attribute: false
+        wrapped: false
+tags:
+- name: Messages

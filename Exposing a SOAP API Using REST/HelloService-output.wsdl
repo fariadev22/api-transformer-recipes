@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:schemas="https://www.example.com/SayHello/schemas" xmlns:wsdl="https://www.example.com/SayHello/wsdl" xmlns:m="https://www.example.com/message" xmlns:e="https://www.example.com/error" targetNamespace="https://www.example.com/SayHello/wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns:tns="https://www.example.com/message" targetNamespace="https://www.example.com/message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="MessageEntry">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="from" type="xs:string" />
+          <xs:element minOccurs="1" name="to" type="xs:string" />
+          <xs:element minOccurs="1" name="text" type="xs:string" />
+          <xs:element minOccurs="1" name="date" type="xs:dateTime" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:tns="https://www.example.com/error" targetNamespace="https://www.example.com/error" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="Error">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:tns="https://www.example.com/SayHello/schemas" targetNamespace="https://www.example.com/SayHello/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="https://www.example.com/message" />
+      <xs:import namespace="https://www.example.com/error" />
+      <xs:element name="GET_GetMessages_InputMessage" type="schemas:GET_GetMessages_InputMessage" />
+      <xs:element name="GET_GetMessages_OutputMessage" type="schemas:GET_GetMessages_OutputMessage" />
+      <xs:element name="GET_GetMessages_404" type="e:Error">
+        <xs:annotation>
+          <xs:documentation>No messages found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="POST_SendMessage_InputMessage" type="schemas:POST_SendMessage_InputMessage" />
+      <xs:element name="POST_SendMessage_OutputMessage" type="schemas:POST_SendMessage_OutputMessage" />
+      <xs:element name="POST_SendMessage_404" type="e:Error">
+        <xs:annotation>
+          <xs:documentation>No messages found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GET_GetMessage_InputMessage" type="schemas:GET_GetMessage_InputMessage" />
+      <xs:element name="GET_GetMessage_OutputMessage" type="schemas:GET_GetMessage_OutputMessage" />
+      <xs:element name="GET_GetMessage_404" type="e:Error">
+        <xs:annotation>
+          <xs:documentation>No messages found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:complexType name="GET_GetMessages_InputMessage" />
+      <xs:complexType name="GET_GetMessages_OutputMessage">
+        <xs:sequence>
+          <xs:element name="Messages">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="unbounded" name="response" type="m:MessageEntry">
+                  <xs:annotation>
+                    <xs:documentation>List of all message objects</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="POST_SendMessage_InputMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="body" type="m:MessageEntry">
+            <xs:annotation>
+              <xs:documentation>Message object</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="POST_SendMessage_OutputMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Message id will be received if message is successfully stored.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GET_GetMessage_InputMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="messageId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GET_GetMessage_OutputMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response" type="m:MessageEntry">
+            <xs:annotation>
+              <xs:documentation>Message object against the id, if found</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="GET_GetMessages_InputMessage">
+    <part name="GET_GetMessages_InputMessage" element="schemas:GET_GetMessages_InputMessage" />
+  </message>
+  <message name="GET_GetMessages_OutputMessage">
+    <part name="GET_GetMessages_OutputMessage" element="schemas:GET_GetMessages_OutputMessage" />
+  </message>
+  <message name="GET_GetMessages_404">
+    <part name="GET_GetMessages_404" element="schemas:GET_GetMessages_404" />
+  </message>
+  <message name="POST_SendMessage_InputMessage">
+    <part name="POST_SendMessage_InputMessage" element="schemas:POST_SendMessage_InputMessage" />
+  </message>
+  <message name="POST_SendMessage_OutputMessage">
+    <part name="POST_SendMessage_OutputMessage" element="schemas:POST_SendMessage_OutputMessage" />
+  </message>
+  <message name="POST_SendMessage_404">
+    <part name="POST_SendMessage_404" element="schemas:POST_SendMessage_404" />
+  </message>
+  <message name="GET_GetMessage_InputMessage">
+    <part name="GET_GetMessage_InputMessage" element="schemas:GET_GetMessage_InputMessage" />
+  </message>
+  <message name="GET_GetMessage_OutputMessage">
+    <part name="GET_GetMessage_OutputMessage" element="schemas:GET_GetMessage_OutputMessage" />
+  </message>
+  <message name="GET_GetMessage_404">
+    <part name="GET_GetMessage_404" element="schemas:GET_GetMessage_404" />
+  </message>
+  <portType name="HelloService_PortType">
+    <operation name="GET_GetMessages">
+      <documentation>Get all message entries</documentation>
+      <input message="wsdl:GET_GetMessages_InputMessage" />
+      <output message="wsdl:GET_GetMessages_OutputMessage">
+        <documentation>List of all message objects</documentation>
+      </output>
+      <fault name="GET_GetMessages_404" message="wsdl:GET_GetMessages_404">
+        <documentation>No messages found</documentation>
+      </fault>
+    </operation>
+    <operation name="POST_SendMessage">
+      <documentation>Send a message</documentation>
+      <input message="wsdl:POST_SendMessage_InputMessage" />
+      <output message="wsdl:POST_SendMessage_OutputMessage">
+        <documentation>Message id will be received if message is successfully stored.</documentation>
+      </output>
+      <fault name="POST_SendMessage_404" message="wsdl:POST_SendMessage_404">
+        <documentation>No messages found</documentation>
+      </fault>
+    </operation>
+    <operation name="GET_GetMessage">
+      <documentation>View message entry</documentation>
+      <input message="wsdl:GET_GetMessage_InputMessage" />
+      <output message="wsdl:GET_GetMessage_OutputMessage">
+        <documentation>Message object against the id, if found</documentation>
+      </output>
+      <fault name="GET_GetMessage_404" message="wsdl:GET_GetMessage_404">
+        <documentation>No messages found</documentation>
+      </fault>
+    </operation>
+  </portType>
+  <binding name="HelloService_Binding" type="wsdl:HelloService_PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="GET_GetMessages">
+      <soap:operation soapAction="GET_GetMessages" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GET_GetMessages_404">
+        <soap:fault use="literal" name="GET_GetMessages_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="POST_SendMessage">
+      <soap:operation soapAction="POST_SendMessage" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="POST_SendMessage_404">
+        <soap:fault use="literal" name="POST_SendMessage_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GET_GetMessage">
+      <soap:operation soapAction="GET_GetMessage" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GET_GetMessage_404">
+        <soap:fault use="literal" name="GET_GetMessage_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="HelloService">
+    <documentation>Swagger file for generating WSDL</documentation>
+    <port name="default_Port" binding="wsdl:HelloService_Binding">
+      <soap:address location="https://www.example.com/SayHello/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>
