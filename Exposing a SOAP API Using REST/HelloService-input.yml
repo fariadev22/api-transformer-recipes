@@ -12,11 +12,9 @@ paths:
       - Messages
       description: Get all message entries
       operationId: GetMessages
-      parameters: []
       responses:
         200:
           description: List of all message objects
-          headers: {}
           content:
             application/json:
               schema:
@@ -26,7 +24,6 @@ paths:
                 description: List of all message objects
                 xml:
                   name: Messages
-                  attribute: false
                   wrapped: true
         404:
           description: No messages found
@@ -34,14 +31,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      deprecated: false
   /message:
     post:
       tags:
       - Messages
       description: Send a message
       operationId: SendMessage
-      parameters: []
       requestBody:
         description: 'Message object'
         content:
@@ -62,7 +57,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      deprecated: false
     get:
       tags:
       - Messages
@@ -87,7 +81,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      deprecated: false
 components:
   schemas:
     Message:
@@ -117,8 +110,6 @@ components:
         name: MessageEntry
         namespace: https://www.example.com/message
         prefix: m
-        attribute: false
-        wrapped: false
     Error:
       title: Error
       required:
@@ -131,7 +122,5 @@ components:
         name: Error
         namespace: https://www.example.com/error
         prefix: e
-        attribute: false
-        wrapped: false
 tags:
 - name: Messages
